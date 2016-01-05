@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Copyright (c) 2016 Sebastian Stenzel
+  This file is licensed under the terms of the MIT license.
+  See the LICENSE file for more info.
+-->
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>org.cryptomator</groupId>
+	<artifactId>cryptomator-osx</artifactId>
+	<version>0.10.1</version>
+	<packaging>pom</packaging>
+	<name>Cryptomator Mac OS X installer</name>
+
+	<properties>
+		<cryptomator.jar.version>0.10.1</cryptomator.jar.version>
+		<cryptomator.jar.url>https://github.com/cryptomator/cryptomator/releases/download/${cryptomator.jar.version}/Cryptomator-${cryptomator.jar.version}.jar</cryptomator.jar.url>
+		<javafx.tools.ant.jar>${java.home}/../lib/ant-javafx.jar</javafx.tools.ant.jar>
+	</properties>
+
+	<build>
+		<plugins>
+			<plugin>
+				<artifactId>maven-antrun-plugin</artifactId>
+				<version>1.8</version>
+				<executions>
+					<execution>
+						<id>load-uber-jar</id>
+						<phase>initialize</phase>
+						<goals>
+							<goal>run</goal>
+						</goals>
+						<configuration>
+							<target name="download-jar">
+								<mkdir dir="${project.build.directory}/download"/>
+								<get src="${cryptomator.jar.url}" skipexisting="true" dest="${project.build.directory}/download/Cryptomator.jar"/>
+							</target>
+						</configuration>
+					</execution>
+					<execution>
+						<id>create-deployment-bundle</id>
+						<phase>package</phase>
+						<goals>
+							<goal>run</goal>
+						</goals>
+						<configuration>
+							<target name="create-dmg" xmlns:fx="javafx:com.sun.javafx.tools.ant">
+								<taskdef uri="javafx:com.sun.javafx.tools.ant" resource="com/sun/javafx/tools/ant/antlib.xml" classpath="${project.basedir}:${javafx.tools.ant.jar}" />
+
+								<!-- Define application to build -->
+								<fx:application id="Cryptomator" name="Cryptomator" version="${project.version}" mainClass="org.cryptomator.ui.Cryptomator" />
+
+								<!-- Create main application jar -->
+								<fx:jar destfile="${project.build.directory}/Cryptomator-${project.version}.jar">
+									<fx:application refid="Cryptomator" />
+									<fx:fileset dir="${project.build.directory}" includes="download/Cryptomator.jar" />
+									<fx:manifest>
+										<fx:attribute name="Implementation-Vendor" value="cryptomator.org" />
+										<fx:attribute name="Implementation-Version" value="${project.version}" />
+									</fx:manifest>
+								</fx:jar>
+
+								<!-- Create native package -->
+								<fx:deploy nativeBundles="dmg" outdir="${project.build.directory}" outfile="Cryptomator-${project.version}" verbose="true">
+									<fx:application refid="Cryptomator" />
+									<fx:info title="Cryptomator" vendor="cryptomator.org" copyright="cryptomator.org" license="MIT" category="Utility" />
+									<fx:platform javafx="2.2+" j2se="8.0">
+										<fx:property name="logPath" value="~/Library/Logs/Cryptomator/cryptomator.log" />
+										<fx:jvmarg value="-Xmx2048m" />
+									</fx:platform>
+									<fx:resources>
+										<fx:fileset dir="${project.build.directory}" type="jar" includes="Cryptomator-${project.version}.jar" />
+									</fx:resources>
+									<fx:permissions elevated="false" />
+									<fx:preferences install="true" />
+								</fx:deploy>
+							</target>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+</project>
