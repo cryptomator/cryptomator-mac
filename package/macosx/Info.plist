@@ -70,7 +70,7 @@ DEPLOY_JVM_USER_OPTIONS
       <string>Editor</string>
       <key>LSItemContentTypes</key>
       <array>
-        <string>org.cryptomator.folder</string>
+        <string>org.cryptomator.vault</string>
       </array>
       <key>LSTypeIsPackage</key>
       <true/>
@@ -88,7 +88,7 @@ DEPLOY_JVM_USER_OPTIONS
       <key>UTTypeIconFile</key>
       <string>Cryptomator.icns</string>
       <key>UTTypeIdentifier</key>
-      <string>org.cryptomator.folder</string>
+      <string>org.cryptomator.vault</string>
       <key>UTTypeTagSpecification</key>
       <dict>
         <key>public.filename-extension</key>
