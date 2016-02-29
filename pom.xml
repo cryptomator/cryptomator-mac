@@ -77,7 +77,7 @@
 									<fx:application refid="Cryptomator" />
 									<fx:info title="Cryptomator" vendor="cryptomator.org" copyright="cryptomator.org" license="MIT" category="Utility" />
 									<fx:platform javafx="2.2+" j2se="8.0">
-										<fx:property name="logPath" value="~/Library/Logs/Cryptomator/cryptomator.log" />
+										<fx:property name="cryptomator.logPath" value="~/Library/Logs/Cryptomator/cryptomator.log" />
 										<fx:jvmarg value="-Xmx1024m" />
 									</fx:platform>
 									<fx:resources>
