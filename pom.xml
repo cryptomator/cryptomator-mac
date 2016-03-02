@@ -68,6 +68,7 @@
 									</fx:resources>
 									<fx:manifest>
 										<fx:attribute name="Implementation-Vendor" value="cryptomator.org" />
+										<fx:attribute name="Implementation-Title" value="Cryptomator"/>
 										<fx:attribute name="Implementation-Version" value="${project.version}" />
 									</fx:manifest>
 								</fx:jar>
@@ -81,11 +82,13 @@
 										<fx:jvmarg value="-Xmx1024m" />
 									</fx:platform>
 									<fx:resources>
+										<fx:fileset dir="." type="license" includes="full-license.txt" />
 										<fx:fileset dir="${project.build.directory}" type="jar" includes="Cryptomator-${project.version}.jar" />
 										<fx:fileset dir="${project.build.directory}/libs" type="jar" includes="*.jar" excludes="ui-${cryptomator.ui.version}.jar"/>
 									</fx:resources>
 									<fx:permissions elevated="false" />
 									<fx:preferences install="true" />
+									<fx:bundleArgument arg="mac.signing-key-user-name" value="Tobias Hagemann"/>
 								</fx:deploy>
 							</target>
 						</configuration>
