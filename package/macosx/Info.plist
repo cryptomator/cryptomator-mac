@@ -63,7 +63,7 @@ DEPLOY_JVM_USER_OPTIONS
         <string>cryptomator</string>
       </array>
       <key>CFBundleTypeIconFile</key>
-      <string>Cryptomator.icns</string>
+      <string>Cryptomator-Vault.icns</string>
       <key>CFBundleTypeName</key>
       <string>Cryptomator Vault</string>
       <key>CFBundleTypeRole</key>
@@ -86,7 +86,7 @@ DEPLOY_JVM_USER_OPTIONS
       <key>UTTypeDescription</key>
       <string>Cryptomator Vault</string>
       <key>UTTypeIconFile</key>
-      <string>Cryptomator.icns</string>
+      <string>Cryptomator-Vault.icns</string>
       <key>UTTypeIdentifier</key>
       <string>org.cryptomator.vault</string>
       <key>UTTypeTagSpecification</key>
