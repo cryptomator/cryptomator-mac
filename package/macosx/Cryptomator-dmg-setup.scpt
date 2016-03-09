@@ -34,7 +34,7 @@ tell application "Finder"
 		close
 		open
 		update without registering applications
-		delay 5
+		delay 10
 	end tell
 end tell
 
