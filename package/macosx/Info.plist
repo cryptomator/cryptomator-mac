@@ -58,42 +58,43 @@ DEPLOY_JVM_USER_OPTIONS
   <key>CFBundleDocumentTypes</key>
   <array>
     <dict>
-      <key>CFBundleTypeExtensions</key>
+      <key>LSItemContentTypes</key>
       <array>
-        <string>cryptomator</string>
+        <string>org.cryptomator.vault-metadata</string>
       </array>
       <key>CFBundleTypeIconFile</key>
       <string>../Java/Cryptomator-Vault.icns</string>
       <key>CFBundleTypeName</key>
-      <string>Cryptomator Vault</string>
+      <string>Cryptomator Vault Metadata</string>
+      <key>LSHandlerRank</key>
+      <string>Owner</string>
       <key>CFBundleTypeRole</key>
       <string>Editor</string>
-      <key>LSItemContentTypes</key>
-      <array>
-        <string>org.cryptomator.vault</string>
-      </array>
-      <key>LSTypeIsPackage</key>
-      <true/>
     </dict>
   </array>
   <key>UTExportedTypeDeclarations</key>
   <array>
     <dict>
+      <key>UTTypeIdentifier</key>
+      <string>org.cryptomator.vault-metadata</string>
       <key>UTTypeConformsTo</key>
       <array>
-        <string>com.apple.package</string>
+        <string>public.utf8-plain-text</string>
+        <string>public.json</string>
       </array>
       <key>UTTypeDescription</key>
-      <string>Cryptomator Vault</string>
+      <string>Cryptomator Vault Metadata</string>
       <key>UTTypeIconFile</key>
       <string>../Java/Cryptomator-Vault.icns</string>
-      <key>UTTypeIdentifier</key>
-      <string>org.cryptomator.vault</string>
       <key>UTTypeTagSpecification</key>
       <dict>
         <key>public.filename-extension</key>
         <array>
           <string>cryptomator</string>
+        </array>
+        <key>public.mime-type</key>
+        <array>
+          <string>application/x-vnd.cryptomator-vault-metadata</string>
         </array>
       </dict>
     </dict>

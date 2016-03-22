@@ -13,7 +13,7 @@
 	<name>Cryptomator Mac OS X installer</name>
 
 	<properties>
-		<cryptomator.ui.version>1.1.0-SNAPSHOT</cryptomator.ui.version>
+		<cryptomator.ui.version>${project.version}</cryptomator.ui.version>
 		<javafx.tools.ant.jar>${java.home}/../lib/ant-javafx.jar</javafx.tools.ant.jar>
 	</properties>
 	
