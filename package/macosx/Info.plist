@@ -99,5 +99,8 @@ DEPLOY_JVM_USER_OPTIONS
       </dict>
     </dict>
   </array>
+  <!-- allow utilization of integrated GPU, see https://developer.apple.com/library/mac/qa/qa1734/_index.html -->
+  <key>NSSupportsAutomaticGraphicsSwitching</key>
+  <true/>
 </dict>
 </plist>
