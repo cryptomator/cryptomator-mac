@@ -88,6 +88,7 @@
 										<fx:fileset dir="${basedir}/package/macosx" type="data" includes="Cryptomator-Vault.icns" />
 										<fx:fileset dir="${project.build.directory}" type="jar" includes="Cryptomator-${project.version}.jar" />
 										<fx:fileset dir="${project.build.directory}/libs" type="jar" includes="*.jar" excludes="ui-${cryptomator.ui.version}.jar"/>
+										<fx:fileset dir="${basedir}/package/macosx" type="data" includes="*.dylib" />
 									</fx:resources>
 									<fx:permissions elevated="false" />
 									<fx:preferences install="true" />
