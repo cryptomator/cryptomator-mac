@@ -28,7 +28,7 @@
   <key>LSApplicationCategoryType</key>
   <string>DEPLOY_BUNDLE_CATEGORY</string>
   <key>CFBundleVersion</key>
-  <string>911</string>
+  <string>917</string>
   <key>NSHumanReadableCopyright</key>
   <string>DEPLOY_BUNDLE_COPYRIGHT</string>
   <key>JVMRuntime</key>
@@ -51,6 +51,18 @@ DEPLOY_JVM_USER_OPTIONS
   </dict>
   <key>NSHighResolutionCapable</key>
   <string>true</string>
+  <key>NSUbiquitousContainers</key>
+  <dict>
+    <key>iCloud.com.setolabs.Cryptomator</key>
+    <dict>
+      <key>NSUbiquitousContainerIsDocumentScopePublic</key>
+      <true/>
+      <key>NSUbiquitousContainerName</key>
+      <string>Cryptomator</string>
+      <key>NSUbiquitousContainerSupportedFolderLevels</key>
+      <string>Any</string>
+    </dict>
+  </dict>
   <!-- register .cryptomator bundle extension -->
   <key>CFBundleDocumentTypes</key>
   <array>
