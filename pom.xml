@@ -78,14 +78,14 @@
 									<fx:application refid="Cryptomator" />
 									<fx:info title="Cryptomator" vendor="cryptomator.org" copyright="cryptomator.org" license="MIT" category="Utility" />
 									<fx:platform javafx="2.2+" j2se="8.0">
-										<fx:property name="cryptomator.logPath" value="~/Library/Logs/Cryptomator/cryptomator.log" />
-										<fx:property name="cryptomator.upgradeLogPath" value="~/Library/Logs/Cryptomator/upgrade.log" />
+										<fx:property name="logback.configurationFile" value="logback.xml" />
 										<fx:property name="cryptomator.settingsPath" value="~/Library/Application Support/Cryptomator/settings.json" />
 										<fx:property name="cryptomator.ipcPortPath" value="~/Library/Application Support/Cryptomator/ipcPort.bin" />
 										<fx:jvmarg value="-Xmx512m" />
 									</fx:platform>
 									<fx:resources>
 										<fx:fileset dir="." type="license" includes="full-license.txt" />
+										<fx:fileset dir="." type="data" includes="logback.xml" />
 										<fx:fileset dir="${basedir}/package/macosx" type="data" includes="Cryptomator-Vault.icns" />
 										<fx:fileset dir="${project.build.directory}" type="jar" includes="Cryptomator-${project.version}.jar" />
 										<fx:fileset dir="${project.build.directory}/libs" type="jar" includes="*.jar" excludes="launcher-${cryptomator.launcher.version}.jar"/>
