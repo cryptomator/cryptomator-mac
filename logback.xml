@@ -30,7 +30,7 @@
 	</appender>
 
 	<logger name="org.cryptomator" level="INFO" />
-	<logger name="org.eclipse.jetty.server.Server" level="INFO" />
+	<logger name="org.eclipse.jetty.server.HttpChannel" level="INFO" />
 	<logger name="org.cryptomator.ui.model" level="INFO">
 		<appender-ref ref="UPGRADE_FILE" />
 	</logger>
