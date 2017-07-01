@@ -1,3 +1,5 @@
+Cryptomator is distributed under the GPLv3 License, found below. Please see the bottom of this document for any other license applicable to code used within Cryptomator.
+
 Copyright (c) 2016-2017 Skymatic UG (haftungsbeschränkt) (skymatic.de)
 
 This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
