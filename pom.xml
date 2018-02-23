@@ -8,15 +8,15 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.cryptomator</groupId>
 	<artifactId>cryptomator-osx</artifactId>
-	<version>1.3.2</version>
+	<version>1.4.0-SNAPSHOT</version>
 	<packaging>pom</packaging>
 	<name>Cryptomator macOS Installer</name>
 
 	<properties>
 		<cryptomator.launcher.version>${project.version}</cryptomator.launcher.version>
-		<javafx.tools.ant.jar>${java.home}/../lib/ant-javafx.jar</javafx.tools.ant.jar>
+		<javafx.tools.ant.jar>${java.home}/lib/ant-javafx.jar</javafx.tools.ant.jar>
 	</properties>
-	
+
 	<dependencies>
 		<dependency>
 			<groupId>org.cryptomator</groupId>
@@ -38,10 +38,12 @@
 						</goals>
 						<configuration>
 							<outputDirectory>${project.build.directory}/libs</outputDirectory>
+							<includeScope>runtime</includeScope>
 						</configuration>
 					</execution>
 				</executions>
 			</plugin>
+
 			<plugin>
 				<artifactId>maven-antrun-plugin</artifactId>
 				<version>1.8</version>
@@ -54,45 +56,46 @@
 						</goals>
 						<configuration>
 							<target name="create-dmg" xmlns:fx="javafx:com.sun.javafx.tools.ant">
-								<taskdef uri="javafx:com.sun.javafx.tools.ant" resource="com/sun/javafx/tools/ant/antlib.xml" classpath="${project.basedir}:${javafx.tools.ant.jar}" />
-	
+								<taskdef uri="javafx:com.sun.javafx.tools.ant" resource="com/sun/javafx/tools/ant/antlib.xml" classpath="${project.basedir}:${javafx.tools.ant.jar}"/>
+
 								<!-- Define application to build -->
-								<fx:application id="Cryptomator" name="Cryptomator" version="${project.version}" mainClass="org.cryptomator.launcher.Cryptomator" />
-	
+								<fx:application id="Cryptomator" name="Cryptomator" version="${project.version}" mainClass="org.cryptomator.launcher.Cryptomator"/>
+
 								<!-- Create main application jar -->
 								<fx:jar destfile="${project.build.directory}/Cryptomator-${project.version}.jar">
-									<fx:application refid="Cryptomator" />
-									<fx:fileset dir="${project.build.directory}/libs" includes="launcher-${cryptomator.launcher.version}.jar" />
+									<fx:application refid="Cryptomator"/>
+									<fx:fileset dir="${project.build.directory}/libs" includes="launcher-${cryptomator.launcher.version}.jar"/>
 									<fx:resources>
-										<fx:fileset dir="${project.build.directory}/libs" type="jar" includes="*.jar" excludes="launcher-${cryptomator.launcher.version}.jar" />
+										<fx:fileset dir="${project.build.directory}/libs" type="jar" includes="*.jar" excludes="launcher-${cryptomator.launcher.version}.jar"/>
 									</fx:resources>
 									<fx:manifest>
-										<fx:attribute name="Implementation-Vendor" value="cryptomator.org" />
+										<fx:attribute name="Implementation-Vendor" value="cryptomator.org"/>
 										<fx:attribute name="Implementation-Title" value="Cryptomator"/>
-										<fx:attribute name="Implementation-Version" value="${project.version}" />
+										<fx:attribute name="Implementation-Version" value="${project.version}"/>
 									</fx:manifest>
 								</fx:jar>
-	
+
 								<!-- Create native package -->
 								<fx:deploy nativeBundles="dmg" outdir="${project.build.directory}" outfile="Cryptomator-${project.version}" verbose="true">
-									<fx:application refid="Cryptomator" />
-									<fx:info title="Cryptomator" vendor="cryptomator.org" copyright="cryptomator.org" license="MIT" category="Utility" />
-									<fx:platform javafx="2.2+" j2se="8.0">
-										<fx:property name="logback.configurationFile" value="logback.xml" />
-										<fx:property name="cryptomator.settingsPath" value="~/Library/Application Support/Cryptomator/settings.json" />
-										<fx:property name="cryptomator.ipcPortPath" value="~/Library/Application Support/Cryptomator/ipcPort.bin" />
-										<fx:jvmarg value="-Xmx512m" />
+									<fx:application refid="Cryptomator"/>
+									<fx:info title="Cryptomator" vendor="cryptomator.org" copyright="cryptomator.org" license="MIT" category="Utility"/>
+									<fx:platform>
+										<fx:property name="logback.configurationFile" value="logback.xml"/>
+										<fx:property name="cryptomator.settingsPath" value="~/Library/Application Support/Cryptomator/settings.json"/>
+										<fx:property name="cryptomator.ipcPortPath" value="~/Library/Application Support/Cryptomator/ipcPort.bin"/>
+										<fx:jvmarg value="-Xmx512m"/>
 									</fx:platform>
 									<fx:resources>
-										<fx:fileset dir="." type="license" includes="full-license.txt" />
-										<fx:fileset dir="." type="data" includes="logback.xml" />
-										<fx:fileset dir="${basedir}/package/macosx" type="data" includes="Cryptomator-Vault.icns" />
-										<fx:fileset dir="${project.build.directory}" type="jar" includes="Cryptomator-${project.version}.jar" />
+										<fx:fileset dir="." type="license" includes="full-license.txt"/>
+										<fx:fileset dir="." type="data" includes="logback.xml"/>
+										<fx:fileset dir="${basedir}/package/macosx" type="data" includes="Cryptomator-Vault.icns"/>
+										<fx:fileset dir="${project.build.directory}" type="jar" includes="Cryptomator-${project.version}.jar"/>
 										<fx:fileset dir="${project.build.directory}/libs" type="jar" includes="*.jar" excludes="launcher-${cryptomator.launcher.version}.jar"/>
-										<fx:fileset dir="${basedir}/package/macosx" type="data" includes="*.dylib" />
+										<fx:fileset dir="${basedir}/package/macosx" type="data" includes="*.dylib"/>
 									</fx:resources>
-									<fx:permissions elevated="false" />
-									<fx:preferences install="true" />
+									<fx:permissions elevated="false"/>
+									<fx:preferences install="true"/>
+									<fx:bundleArgument arg="dropinResourcesRoot" value="."/>
 									<fx:bundleArgument arg="mac.signing-key-user-name" value="Tobias Hagemann"/>
 								</fx:deploy>
 							</target>
