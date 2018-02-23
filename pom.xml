@@ -79,11 +79,16 @@
 								<fx:deploy nativeBundles="dmg" outdir="${project.build.directory}" outfile="Cryptomator-${project.version}" verbose="true">
 									<fx:application refid="Cryptomator"/>
 									<fx:info title="Cryptomator" vendor="cryptomator.org" copyright="cryptomator.org" license="MIT" category="Utility"/>
+									<fx:runtime>
+										<fx:add-modules value="jdk.incubator.httpclient"/>
+									</fx:runtime>
 									<fx:platform>
 										<fx:property name="logback.configurationFile" value="logback.xml"/>
 										<fx:property name="cryptomator.settingsPath" value="~/Library/Application Support/Cryptomator/settings.json"/>
 										<fx:property name="cryptomator.ipcPortPath" value="~/Library/Application Support/Cryptomator/ipcPort.bin"/>
 										<fx:jvmarg value="-Xmx512m"/>
+										<fx:jvmarg value="--add-modules"/>
+										<fx:jvmarg value="jdk.incubator.httpclient"/>
 									</fx:platform>
 									<fx:resources>
 										<fx:fileset dir="." type="license" includes="full-license.txt"/>
