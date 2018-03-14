@@ -76,7 +76,7 @@
 								</fx:jar>
 
 								<!-- Create native package -->
-								<fx:deploy nativeBundles="image" outdir="${project.build.directory}" verbose="true">
+								<fx:deploy nativeBundles="image" outdir="${project.build.directory}/app" verbose="true">
 									<fx:application refid="Cryptomator"/>
 									<fx:info title="Cryptomator" vendor="cryptomator.org" copyright="cryptomator.org" license="MIT" category="Utility"/>
 									<fx:platform j2se="9.0">
@@ -88,15 +88,15 @@
 										<fx:jvmarg value="jdk.incubator.httpclient"/>
 									</fx:platform>
 									<fx:resources>
-										<fx:fileset dir="${project.basedir}" type="data" includes="logback.xml"/>
-										<fx:fileset dir="${project.basedir}/package/macosx" type="data" includes="Cryptomator-Vault.icns"/>
+										<fx:fileset dir="${project.basedir}/resources/app" type="data" includes="logback.xml"/>
+										<fx:fileset dir="${project.basedir}/resources/app" type="data" includes="Cryptomator-Vault.icns"/>
 										<fx:fileset dir="${project.build.directory}" type="jar" includes="Cryptomator-${project.version}.jar"/>
 										<fx:fileset dir="${project.build.directory}/libs" type="jar" includes="*.jar" excludes="launcher-${cryptomator.launcher.version}.jar"/>
-										<fx:fileset dir="${project.basedir}/package/macosx" type="data" includes="*.dylib"/>
+										<fx:fileset dir="${project.basedir}/resources/app" type="data" includes="*.dylib"/>
 									</fx:resources>
 									<fx:permissions elevated="false"/>
 									<fx:preferences install="true"/>
-									<fx:bundleArgument arg="dropinResourcesRoot" value="."/>
+									<fx:bundleArgument arg="dropinResourcesRoot" value="${project.basedir}/resources/app"/>
 								</fx:deploy>
 							</target>
 						</configuration>
@@ -110,7 +110,7 @@
 						<configuration>
 							<target xmlns="antlib:org.apache.tools.ant">
 								<echo message="Deleting default runtime."/>
-								<delete dir="${project.build.directory}/Cryptomator.app/Contents/PlugIns/Java.runtime/Contents/Home"/>
+								<delete dir="${project.build.directory}/app/Cryptomator.app/Contents/PlugIns/Java.runtime/Contents/Home"/>
 							</target>
 						</configuration>
 					</execution>
@@ -130,7 +130,7 @@
 						</goals>
 						<configuration>
 							<executable>${java.home}/bin/jlink</executable>
-							<workingDirectory>${project.build.directory}/Cryptomator.app/Contents/PlugIns/Java.runtime/Contents/</workingDirectory>
+							<workingDirectory>${project.build.directory}/app/Cryptomator.app/Contents/PlugIns/Java.runtime/Contents/</workingDirectory>
 							<longModulepath>false</longModulepath> <!-- fix for https://github.com/mojohaus/exec-maven-plugin/issues/75 -->
 							<arguments>
 								<argument>--module-path</argument>
@@ -159,13 +159,54 @@
 						</goals>
 						<configuration>
 							<executable>codesign</executable>
-							<workingDirectory>${project.build.directory}</workingDirectory>
+							<workingDirectory>${project.build.directory}/app</workingDirectory>
 							<arguments>
 								<argument>--force</argument>
 								<argument>--deep</argument>
 								<argument>-s</argument>
-								<argument>Tobias Hagemann</argument>
+								<argument>307EF36B2A2EF98EB0AC0D24603A201BBDD4798B</argument>
 								<argument>Cryptomator.app</argument>
+							</arguments>
+						</configuration>
+					</execution>
+					<execution>
+						<id>create-dmg</id>
+						<phase>package</phase>
+						<goals>
+							<goal>exec</goal>
+						</goals>
+						<configuration>
+							<executable>/bin/sh</executable>
+							<workingDirectory>${project.basedir}</workingDirectory>
+							<arguments>
+								<argument>create-dmg/create-dmg.sh</argument>
+								<argument>--volname</argument>
+								<argument>Cryptomator</argument>
+								<argument>--volicon</argument>
+								<argument>resources/dmg/Cryptomator-Volume.icns</argument>
+								<argument>--background</argument>
+								<argument>resources/dmg/Cryptomator-background.png</argument>
+								<argument>--window-pos</argument>
+								<argument>400</argument>
+								<argument>100</argument>
+								<argument>--window-size</argument>
+								<argument>640</argument>
+								<argument>438</argument>
+								<argument>--icon-size</argument>
+								<argument>128</argument>
+								<argument>--icon</argument>
+								<argument>Cryptomator.app</argument>
+								<argument>128</argument>
+								<argument>245</argument>
+								<argument>--hide-extension</argument>
+								<argument>Cryptomator.app</argument>
+								<argument>--app-drop-link</argument>
+								<argument>512</argument>
+								<argument>245</argument>
+								<argument>--eula</argument>
+								<argument>resources/dmg/license.rtf</argument>
+								<argument>target/Cryptomator-${project.version}.dmg</argument>
+								<argument>${project.build.directory}/app</argument>
 							</arguments>
 						</configuration>
 					</execution>
