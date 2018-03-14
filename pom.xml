@@ -32,7 +32,7 @@
 				<executions>
 					<execution>
 						<id>copy-libs</id>
-						<phase>prepare-package</phase>
+						<phase>process-resources</phase>
 						<goals>
 							<goal>copy-dependencies</goal>
 						</goals>
@@ -50,12 +50,12 @@
 				<executions>
 					<execution>
 						<id>create-deployment-bundle</id>
-						<phase>package</phase>
+						<phase>compile</phase>
 						<goals>
 							<goal>run</goal>
 						</goals>
 						<configuration>
-							<target name="create-dmg" xmlns:fx="javafx:com.sun.javafx.tools.ant">
+							<target name="create-app" xmlns:fx="javafx:com.sun.javafx.tools.ant">
 								<taskdef uri="javafx:com.sun.javafx.tools.ant" resource="com/sun/javafx/tools/ant/antlib.xml" classpath="${project.basedir}:${javafx.tools.ant.jar}"/>
 
 								<!-- Define application to build -->
@@ -76,13 +76,10 @@
 								</fx:jar>
 
 								<!-- Create native package -->
-								<fx:deploy nativeBundles="dmg" outdir="${project.build.directory}" outfile="Cryptomator-${project.version}" verbose="true">
+								<fx:deploy nativeBundles="image" outdir="${project.build.directory}" verbose="true">
 									<fx:application refid="Cryptomator"/>
 									<fx:info title="Cryptomator" vendor="cryptomator.org" copyright="cryptomator.org" license="MIT" category="Utility"/>
-									<fx:runtime>
-										<fx:add-modules value="jdk.incubator.httpclient"/>
-									</fx:runtime>
-									<fx:platform>
+									<fx:platform j2se="9.0">
 										<fx:property name="logback.configurationFile" value="logback.xml"/>
 										<fx:property name="cryptomator.settingsPath" value="~/Library/Application Support/Cryptomator/settings.json"/>
 										<fx:property name="cryptomator.ipcPortPath" value="~/Library/Application Support/Cryptomator/ipcPort.bin"/>
@@ -91,19 +88,85 @@
 										<fx:jvmarg value="jdk.incubator.httpclient"/>
 									</fx:platform>
 									<fx:resources>
-										<fx:fileset dir="." type="license" includes="full-license.txt"/>
-										<fx:fileset dir="." type="data" includes="logback.xml"/>
-										<fx:fileset dir="${basedir}/package/macosx" type="data" includes="Cryptomator-Vault.icns"/>
+										<fx:fileset dir="${project.basedir}" type="data" includes="logback.xml"/>
+										<fx:fileset dir="${project.basedir}/package/macosx" type="data" includes="Cryptomator-Vault.icns"/>
 										<fx:fileset dir="${project.build.directory}" type="jar" includes="Cryptomator-${project.version}.jar"/>
 										<fx:fileset dir="${project.build.directory}/libs" type="jar" includes="*.jar" excludes="launcher-${cryptomator.launcher.version}.jar"/>
-										<fx:fileset dir="${basedir}/package/macosx" type="data" includes="*.dylib"/>
+										<fx:fileset dir="${project.basedir}/package/macosx" type="data" includes="*.dylib"/>
 									</fx:resources>
 									<fx:permissions elevated="false"/>
 									<fx:preferences install="true"/>
 									<fx:bundleArgument arg="dropinResourcesRoot" value="."/>
-									<fx:bundleArgument arg="mac.signing-key-user-name" value="Tobias Hagemann"/>
 								</fx:deploy>
 							</target>
+						</configuration>
+					</execution>
+					<execution>
+						<id>cleanup-image</id>
+						<phase>process-classes</phase>
+						<goals>
+							<goal>run</goal>
+						</goals>
+						<configuration>
+							<target xmlns="antlib:org.apache.tools.ant">
+								<echo message="Deleting default runtime."/>
+								<delete dir="${project.build.directory}/Cryptomator.app/Contents/PlugIns/Java.runtime/Contents/Home"/>
+							</target>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>exec-maven-plugin</artifactId>
+				<version>1.6.0</version>
+				<executions>
+					<execution>
+						<id>create-custom-runtime</id>
+						<phase>prepare-package</phase>
+						<goals>
+							<goal>exec</goal>
+						</goals>
+						<configuration>
+							<executable>${java.home}/bin/jlink</executable>
+							<workingDirectory>${project.build.directory}/Cryptomator.app/Contents/PlugIns/Java.runtime/Contents/</workingDirectory>
+							<longModulepath>false</longModulepath> <!-- fix for https://github.com/mojohaus/exec-maven-plugin/issues/75 -->
+							<arguments>
+								<argument>--module-path</argument>
+								<argument>${java.home}/jmods</argument>
+								<argument>--verbose</argument>
+								<argument>--compress</argument>
+								<argument>1</argument>
+								<argument>--no-header-files</argument>
+								<argument>--strip-debug</argument>
+								<argument>--no-man-pages</argument>
+								<argument>--strip-native-commands</argument>
+								<argument>--output</argument>
+								<argument>Home</argument>
+								<argument>--add-modules</argument>
+								<argument>
+									java.base,java.logging,java.xml,java.sql,java.management,java.security.sasl,java.naming,java.datatransfer,java.security.jgss,java.rmi,java.scripting,java.prefs,java.desktop,jdk.incubator.httpclient,javafx.fxml,javafx.controls,jdk.incubator.httpclient
+								</argument>
+							</arguments>
+						</configuration>
+					</execution>
+					<execution>
+						<id>code-sign</id>
+						<phase>prepare-package</phase>
+						<goals>
+							<goal>exec</goal>
+						</goals>
+						<configuration>
+							<executable>codesign</executable>
+							<workingDirectory>${project.build.directory}</workingDirectory>
+							<arguments>
+								<argument>--force</argument>
+								<argument>--deep</argument>
+								<argument>-s</argument>
+								<argument>Tobias Hagemann</argument>
+								<argument>Cryptomator.app</argument>
+							</arguments>
 						</configuration>
 					</execution>
 				</executions>
