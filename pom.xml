@@ -45,6 +45,34 @@
 			</plugin>
 
 			<plugin>
+				<artifactId>maven-resources-plugin</artifactId>
+				<version>3.0.2</version>
+				<executions>
+					<execution>
+						<id>copy-resources</id>
+						<phase>process-resources</phase>
+						<goals>
+							<goal>copy-resources</goal>
+						</goals>
+						<configuration>
+							<outputDirectory>${project.build.directory}/app</outputDirectory>
+							<escapeString>\</escapeString>
+							<encoding>UTF-8</encoding>
+							<resources>
+								<resource>
+									<directory>${project.basedir}/resources/dmg</directory>
+									<filtering>false</filtering>
+									<includes>
+										<include>FUSE for macOS.webloc</include>
+									</includes>
+								</resource>
+							</resources>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+
+			<plugin>
 				<artifactId>maven-antrun-plugin</artifactId>
 				<version>1.8</version>
 				<executions>
@@ -185,13 +213,13 @@
 								<argument>--volicon</argument>
 								<argument>resources/dmg/Cryptomator-Volume.icns</argument>
 								<argument>--background</argument>
-								<argument>resources/dmg/Cryptomator-background.png</argument>
+								<argument>resources/dmg/Cryptomator-background.tiff</argument>
 								<argument>--window-pos</argument>
 								<argument>400</argument>
 								<argument>100</argument>
 								<argument>--window-size</argument>
 								<argument>640</argument>
-								<argument>438</argument>
+								<argument>694</argument>
 								<argument>--icon-size</argument>
 								<argument>128</argument>
 								<argument>--icon</argument>
@@ -200,6 +228,12 @@
 								<argument>245</argument>
 								<argument>--hide-extension</argument>
 								<argument>Cryptomator.app</argument>
+								<argument>--icon</argument>
+								<argument>FUSE for macOS.webloc</argument>
+								<argument>320</argument>
+								<argument>501</argument>
+								<argument>--hide-extension</argument>
+								<argument>FUSE for macOS.webloc</argument>
 								<argument>--app-drop-link</argument>
 								<argument>512</argument>
 								<argument>245</argument>
