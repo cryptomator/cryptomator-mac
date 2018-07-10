@@ -9,7 +9,6 @@ curl -o antkit.tar.gz -L https://github.com/cryptomator/cryptomator/releases/dow
 tar -xzf antkit.tar.gz
 
 # build .app
-export JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk-9.0.4.jdk/Contents/Home
 ant \
   -Dantbuild.logback.configurationFile="logback.xml" \
   -Dantbuild.cryptomator.settingsPath="~/Library/Application Support/Cryptomator/settings.json" \
