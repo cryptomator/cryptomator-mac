@@ -2,11 +2,11 @@
 BUILD_VERSION=${1:-continuous}
 
 # cleanup
-rm -r antkit.tar.gz antbuild build.xml libs app *.dmg
+rm -rf antkit.zip antbuild build.xml libs app *.dmg
 
 # download ant-kit
-curl -o antkit.tar.gz -L https://github.com/cryptomator/cryptomator/releases/download/${BUILD_VERSION}/antkit.tar.gz
-tar -xzf antkit.tar.gz
+curl -o antkit.zip -L https://github.com/cryptomator/cryptomator/releases/download/${BUILD_VERSION}/antkit.zip
+unzip antkit.zip
 
 # build .app
 ant \
