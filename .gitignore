@@ -1,3 +1,7 @@
-/target/
-/.settings/
-.project
+# created during build
+antkit.tar.gz
+antbuild
+build.xml
+libs
+app
+*.dmg
