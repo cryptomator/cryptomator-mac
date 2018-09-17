@@ -5,7 +5,7 @@ BUILD_VERSION=${1:-continuous}
 rm -rf antkit.zip antbuild build.xml libs app *.dmg
 
 # download ant-kit
-curl -o antkit.zip -L https://github.com/cryptomator/cryptomator/releases/download/${BUILD_VERSION}/antkit.zip
+curl -o antkit.zip -L https://dl.bintray.com/cryptomator/cryptomator/antkit-${BUILD_VERSION}.zip
 unzip antkit.zip
 
 # build .app
