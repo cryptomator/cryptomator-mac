@@ -1,12 +1,24 @@
 #!/bin/bash
 BUILD_VERSION=${1:-continuous}
 
+# check preconditions
+if [ -z "${JAVA_HOME}" ]; then echo "JAVA_HOME not set. Run using JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk-x.y.z.jdk/Contents/Home/ ./build.sh"; exit 1; fi
+if [ ! -x ${JAVA_HOME}/bin/jlink ]; then echo "${JAVA_HOME}/bin/jlink not executable."; exit 1; fi
+command -v ant >/dev/null 2>&1 || { echo >&2 "ant not found. Fix by 'brew install ant'."; exit 1; }
+command -v curl >/dev/null 2>&1 || { echo >&2 "curl not found."; exit 1; }
+command -v unzip >/dev/null 2>&1 || { echo >&2 "unzip not found."; exit 1; }
+command -v codesign >/dev/null 2>&1 || { echo >&2 "codesign not found. Fix by 'xcode-select --install'."; exit 1; }
+
 # cleanup
 rm -rf antkit.zip antbuild build.xml libs app *.dmg
 
 # download ant-kit
 curl -o antkit.zip -L https://dl.bintray.com/cryptomator/cryptomator/antkit-${BUILD_VERSION}.zip
 unzip antkit.zip
+if [ $? -ne 0 ]; then
+  echo >&2 "unzipping antkit.zip failed.";
+  exit 1;
+fi
 
 # build .app
 ant \
@@ -16,6 +28,10 @@ ant \
   -Dantbuild.cryptomator.keychainPath="" \
   -Dantbuild.dropinResourcesRoot="resources/app" \
   image
+if [ $? -ne 0 ]; then
+  echo >&2 "ant build failed.";
+  exit 1;
+fi
   
 # replace jvm
 rm -rf antbuild/Cryptomator.app/Contents/PlugIns/Java.runtime/Contents/Home
@@ -37,11 +53,10 @@ cp resources/app/libMacFunctions.dylib antbuild/Cryptomator.app/Contents/Java/
 
 # codesign
 codesign --force --deep -s 307EF36B2A2EF98EB0AC0D24603A201BBDD4798B antbuild/Cryptomator.app
-
-# print resulting .app to stdout
-echo "Resulting App:"
-find antbuild/Cryptomator.app
-echo "--------"
+if [ $? -ne 0 ]; then
+  echo >&2 "codesigning .app failed.";
+  exit 1;
+fi
 
 # create .dmg
 mkdir app
