@@ -51,17 +51,19 @@ cp resources/app/logback.xml antbuild/Cryptomator.app/Contents/Java/
 cp resources/app/Cryptomator-Vault.icns antbuild/Cryptomator.app/Contents/Java/
 cp resources/app/libMacFunctions.dylib antbuild/Cryptomator.app/Contents/Java/
 
+# prepare .dmg
+mkdir app
+cp -r antbuild/Cryptomator.app app/
+cp resources/dmg/FUSE\ for\ macOS.webloc app/
+
 # codesign
-codesign --force --deep -s 307EF36B2A2EF98EB0AC0D24603A201BBDD4798B antbuild/Cryptomator.app
+codesign --force --deep -s 307EF36B2A2EF98EB0AC0D24603A201BBDD4798B app/Cryptomator.app
 if [ $? -ne 0 ]; then
   echo >&2 "codesigning .app failed.";
   exit 1;
 fi
 
 # create .dmg
-mkdir app
-cp -r antbuild/Cryptomator.app app/
-cp resources/dmg/FUSE\ for\ macOS.webloc app/
 create-dmg/create-dmg.sh \
   --volname Cryptomator \
   --volicon "resources/dmg/Cryptomator-Volume.icns" \
