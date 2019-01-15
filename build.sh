@@ -21,7 +21,7 @@ if [ $? -ne 0 ]; then
 fi
 
 # create .app
-./packager/jpackager create-image \
+./tools/packager/jpackager create-image \
     --verbose \
     --echo-mode \
     --input libs \
@@ -39,7 +39,7 @@ fi
     --version ${BUILD_VERSION} \
     --module-path ${JAVA_HOME}/jmods\
     --add-modules java.base,java.logging,java.xml,java.sql,java.management,java.security.sasl,java.naming,java.datatransfer,java.security.jgss,java.rmi,java.scripting,java.prefs,java.desktop,jdk.unsupported \
-    --strip-native-commands \
+    --strip-native-commands
 
 # adjust .app
 cp resources/app/Info.plist app/Cryptomator.app/Contents/
