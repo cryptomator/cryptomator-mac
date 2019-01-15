@@ -1,7 +1,5 @@
 # created during build
-antkit.zip
-antbuild
-build.xml
+buildkit.zip
 libs
-app
+/app
 *.dmg
