@@ -12,7 +12,7 @@ command -v codesign >/dev/null 2>&1 || { echo >&2 "codesign not found. Fix by 'x
 # cleanup
 rm -rf buildkit.zip libs app *.dmg
 
-# download ant-kit
+# download buildkit
 curl -o buildkit.zip -L https://dl.bintray.com/cryptomator/cryptomator/buildkit-${BUILD_VERSION}.zip
 unzip buildkit.zip
 if [ $? -ne 0 ]; then
