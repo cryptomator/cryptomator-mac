@@ -28,7 +28,7 @@
   <key>LSApplicationCategoryType</key>
   <string>DEPLOY_BUNDLE_CATEGORY</string>
   <key>CFBundleVersion</key>
-  <string>1229</string>
+  <string>1249</string>
   <key>NSHumanReadableCopyright</key>
   <string>DEPLOY_BUNDLE_COPYRIGHT</string>
   <key>JVMRuntime</key>
