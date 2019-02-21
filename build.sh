@@ -1,5 +1,5 @@
 #!/bin/bash
-BUILD_VERSION=${1:-continuous}
+TAG_VERSION=${1:-snapshot}
 
 # check preconditions
 if [ -z "${JAVA_HOME}" ]; then echo "JAVA_HOME not set. Run using JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk-x.y.z.jdk/Contents/Home/ ./build.sh"; exit 1; fi
@@ -13,12 +13,14 @@ command -v codesign >/dev/null 2>&1 || { echo >&2 "codesign not found. Fix by 'x
 rm -rf buildkit.zip libs app *.dmg
 
 # download buildkit
-curl -o buildkit.zip -L https://dl.bintray.com/cryptomator/cryptomator/buildkit-${BUILD_VERSION}.zip
+curl -o buildkit.zip -L https://dl.bintray.com/cryptomator/cryptomator/${TAG_VERSION}/buildkit-mac.zip
 unzip buildkit.zip
 if [ $? -ne 0 ]; then
   echo >&2 "unzipping buildkit.zip failed.";
   exit 1;
 fi
+BUILD_VERSION=`cat libs/version.txt`
+echo "Building Cryptomator ${BUILD_VERSION}..."
 
 # create .app
 ./tools/packager/jpackager create-image \
@@ -27,9 +29,10 @@ fi
     --input libs \
     --main-jar launcher-${BUILD_VERSION}.jar  \
     --class org.cryptomator.launcher.Cryptomator \
-    --jvm-args "-Dlogback.configurationFile=\"logback.xml\"" \
+    --jvm-args "-Dcryptomator.logDir=\"Library/Logs/Cryptomator\"" \
     --jvm-args "-Dcryptomator.settingsPath=\"~/Library/Application Support/Cryptomator/settings.json\"" \
     --jvm-args "-Dcryptomator.ipcPortPath=\"~/Library/Application Support/Cryptomator/ipcPort.bin\"" \
+    --jvm-args "-Dcryptomator.mountPointsDir=\"~/Library/Application Support/Cryptomator\"" \
     --jvm-args "-Xss2m" \
     --jvm-args "-Xmx512m" \
     --output app \
