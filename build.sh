@@ -48,7 +48,6 @@ echo "Building Cryptomator ${BUILD_VERSION}..."
 cp resources/app/Info.plist app/Cryptomator.app/Contents/
 cp resources/app/Cryptomator.icns app/Cryptomator.app/Contents/Resources/
 cp resources/app/Cryptomator-Vault.icns app/Cryptomator.app/Contents/Resources/
-cp resources/app/logback.xml app/Cryptomator.app/Contents/Java/
 cp resources/app/libMacFunctions.dylib app/Cryptomator.app/Contents/Java/
 # TODO adjust info.plist contents (version, ...)
 
