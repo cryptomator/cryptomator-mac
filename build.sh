@@ -29,10 +29,10 @@ echo "Building Cryptomator ${BUILD_VERSION}..."
     --input libs \
     --main-jar launcher-${BUILD_VERSION}.jar  \
     --class org.cryptomator.launcher.Cryptomator \
-    --jvm-args "-Dcryptomator.logDir=\"Library/Logs/Cryptomator\"" \
+    --jvm-args "-Dcryptomator.logDir=\"~/Library/Logs/Cryptomator\"" \
     --jvm-args "-Dcryptomator.settingsPath=\"~/Library/Application Support/Cryptomator/settings.json\"" \
     --jvm-args "-Dcryptomator.ipcPortPath=\"~/Library/Application Support/Cryptomator/ipcPort.bin\"" \
-    --jvm-args "-Dcryptomator.mountPointsDir=\"~/Library/Application Support/Cryptomator\"" \
+    --jvm-args "-Dcryptomator.mountPointsDir=\"/Volumes\"" \
     --jvm-args "-Xss2m" \
     --jvm-args "-Xmx512m" \
     --output app \
