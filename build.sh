@@ -1,5 +1,6 @@
 #!/bin/bash
 TAG_VERSION=${1:-snapshot}
+GIT_BRANCH=${1:-develop}
 
 # check preconditions
 if [ -z "${JAVA_HOME}" ]; then echo "JAVA_HOME not set. Run using JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk-x.y.z.jdk/Contents/Home/ ./build.sh"; exit 1; fi
@@ -23,8 +24,7 @@ fi
 
 # setting variables
 FIRST_COMMIT='b78ee8295df7f66055b9aaa504c0008aa51ee1d4'
-LATEST_COMMIT=`curl -s "https://api.github.com/repos/cryptomator/cryptomator/git/refs/heads/master" | jq -r '.object.sha'`
-COMMIT_COUNT=`curl -s "https://api.github.com/repos/cryptomator/cryptomator/compare/${FIRST_COMMIT}...${LATEST_COMMIT}" | jq -r '.total_commits'`
+COMMIT_COUNT=$((`curl -s "https://api.github.com/repos/cryptomator/cryptomator/compare/${FIRST_COMMIT}...${GIT_BRANCH}" | jq -r '.total_commits'` + 1))
 BUILD_VERSION=`cat libs/version.txt`
 echo "Building Cryptomator ${BUILD_VERSION} (${COMMIT_COUNT})..."
 

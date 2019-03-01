@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
   <key>LSMinimumSystemVersion</key>
-  <string>10.9</string>
+  <string>10.11.0</string>
   <key>CFBundleDevelopmentRegion</key>
   <string>English</string>
   <key>CFBundleAllowMixedLocalizations</key>
@@ -29,7 +29,7 @@
   <key>CFBundleVersion</key>
   <string>###COMMIT_COUNT###</string>
   <key>NSHumanReadableCopyright</key>
-  <string>Copyright (C) 2019</string>
+  <string>cryptomator.org</string>
   <key>NSHighResolutionCapable</key>
   <string>true</string>
   <key>NSUbiquitousContainers</key>
