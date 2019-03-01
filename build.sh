@@ -1,59 +1,64 @@
 #!/bin/bash
-BUILD_VERSION=${1:-continuous}
+TAG_VERSION=${1:-snapshot}
 
 # check preconditions
 if [ -z "${JAVA_HOME}" ]; then echo "JAVA_HOME not set. Run using JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk-x.y.z.jdk/Contents/Home/ ./build.sh"; exit 1; fi
-if [ ! -x ${JAVA_HOME}/bin/jlink ]; then echo "${JAVA_HOME}/bin/jlink not executable."; exit 1; fi
-command -v ant >/dev/null 2>&1 || { echo >&2 "ant not found. Fix by 'brew install ant'."; exit 1; }
+if [ ! -x ./tools/packager/jpackager ]; then echo "../tools/packager/jpackager not executable."; exit 1; fi
+if [ ! -x ./tools/create-dmg/create-dmg.sh ]; then echo "./tools/create-dmg/create-dmg.sh not executable."; exit 1; fi
+command -v jq >/dev/null 2>&1 || { echo >&2 "jq not found."; exit 1; }
 command -v curl >/dev/null 2>&1 || { echo >&2 "curl not found."; exit 1; }
 command -v unzip >/dev/null 2>&1 || { echo >&2 "unzip not found."; exit 1; }
 command -v codesign >/dev/null 2>&1 || { echo >&2 "codesign not found. Fix by 'xcode-select --install'."; exit 1; }
 
 # cleanup
-rm -rf antkit.zip antbuild build.xml libs app *.dmg
+rm -rf buildkit.zip libs app *.dmg
 
-# download ant-kit
-curl -o antkit.zip -L https://dl.bintray.com/cryptomator/cryptomator/antkit-${BUILD_VERSION}.zip
-unzip antkit.zip
+# download buildkit
+curl -o buildkit.zip -L https://dl.bintray.com/cryptomator/cryptomator/${TAG_VERSION}/buildkit-mac.zip
+unzip buildkit.zip
 if [ $? -ne 0 ]; then
-  echo >&2 "unzipping antkit.zip failed.";
+  echo >&2 "unzipping buildkit.zip failed.";
   exit 1;
 fi
 
-# build .app
-ant \
-  -Dantbuild.logback.configurationFile="logback.xml" \
-  -Dantbuild.cryptomator.settingsPath="~/Library/Application Support/Cryptomator/settings.json" \
-  -Dantbuild.cryptomator.ipcPortPath="~/Library/Application Support/Cryptomator/ipcPort.bin" \
-  -Dantbuild.cryptomator.keychainPath="" \
-  -Dantbuild.dropinResourcesRoot="resources/app" \
-  image
-if [ $? -ne 0 ]; then
-  echo >&2 "ant build failed.";
-  exit 1;
-fi
-  
-# replace jvm
-rm -rf antbuild/Cryptomator.app/Contents/PlugIns/Java.runtime/Contents/Home
-${JAVA_HOME}/bin/jlink \
-  --module-path ${JAVA_HOME}/jmods \
-  --compress 1 \
-  --no-header-files \
-  --strip-debug \
-  --no-man-pages \
-  --strip-native-commands \
-  --output antbuild/Cryptomator.app/Contents/PlugIns/Java.runtime/Contents/Home \
-  --add-modules java.base,java.logging,java.xml,java.sql,java.management,java.security.sasl,java.naming,java.datatransfer,java.security.jgss,java.rmi,java.scripting,java.prefs,java.desktop,javafx.fxml,javafx.controls \
-  --verbose
+# setting variables
+FIRST_COMMIT='b78ee8295df7f66055b9aaa504c0008aa51ee1d4'
+LATEST_COMMIT=`curl -s "https://api.github.com/repos/cryptomator/cryptomator/git/refs/heads/master" | jq -r '.object.sha'`
+COMMIT_COUNT=`curl -s "https://api.github.com/repos/cryptomator/cryptomator/compare/${FIRST_COMMIT}...${LATEST_COMMIT}" | jq -r '.total_commits'`
+BUILD_VERSION=`cat libs/version.txt`
+echo "Building Cryptomator ${BUILD_VERSION} (${COMMIT_COUNT})..."
+
+# create .app
+./tools/packager/jpackager create-image \
+    --verbose \
+    --echo-mode \
+    --input libs \
+    --main-jar launcher-${BUILD_VERSION}.jar  \
+    --class org.cryptomator.launcher.Cryptomator \
+    --jvm-args "-Dcryptomator.logDir=\"~/Library/Logs/Cryptomator\"" \
+    --jvm-args "-Dcryptomator.settingsPath=\"~/Library/Application Support/Cryptomator/settings.json\"" \
+    --jvm-args "-Dcryptomator.ipcPortPath=\"~/Library/Application Support/Cryptomator/ipcPort.bin\"" \
+    --jvm-args "-Dcryptomator.mountPointsDir=\"/Volumes\"" \
+    --jvm-args "-Xss2m" \
+    --jvm-args "-Xmx512m" \
+    --output app \
+    --force \
+    --identifier org.cryptomator \
+    --name Cryptomator \
+    --version ${BUILD_VERSION} \
+    --module-path ${JAVA_HOME}/jmods\
+    --add-modules java.base,java.logging,java.xml,java.sql,java.management,java.security.sasl,java.naming,java.datatransfer,java.security.jgss,java.rmi,java.scripting,java.prefs,java.desktop,jdk.unsupported \
+    --strip-native-commands
 
 # adjust .app
-cp resources/app/logback.xml antbuild/Cryptomator.app/Contents/Java/
-cp resources/app/Cryptomator-Vault.icns antbuild/Cryptomator.app/Contents/Java/
-cp resources/app/libMacFunctions.dylib antbuild/Cryptomator.app/Contents/Java/
+cp resources/app/Info.plist app/Cryptomator.app/Contents/
+cp resources/app/Cryptomator.icns app/Cryptomator.app/Contents/Resources/
+cp resources/app/Cryptomator-Vault.icns app/Cryptomator.app/Contents/Resources/
+cp resources/app/libMacFunctions.dylib app/Cryptomator.app/Contents/Java/
+sed -i '' "s|###BUILD_VERSION###|${BUILD_VERSION}|g" app/Cryptomator.app/Contents/Info.plist
+sed -i '' "s|###COMMIT_COUNT###|${COMMIT_COUNT}|g" app/Cryptomator.app/Contents/Info.plist
 
 # prepare .dmg
-mkdir app
-cp -r antbuild/Cryptomator.app app/
 cp resources/dmg/FUSE\ for\ macOS.webloc app/
 
 # codesign
@@ -64,7 +69,7 @@ if [ $? -ne 0 ]; then
 fi
 
 # create .dmg
-create-dmg/create-dmg.sh \
+./tools/create-dmg/create-dmg.sh \
   --volname Cryptomator \
   --volicon "resources/dmg/Cryptomator-Volume.icns" \
   --background "resources/dmg/Cryptomator-background.tiff" \
