@@ -82,4 +82,6 @@ fi
   --hide-extension "FUSE for macOS.webloc" \
   --app-drop-link 512 245 \
   --eula "resources/dmg/license.rtf" \
+  --icon ".background" 128 758 \
+  --icon ".fseventsd" 320 758 \
   Cryptomator-${BUILD_VERSION}.dmg app
