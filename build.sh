@@ -6,7 +6,7 @@ GIT_BRANCH=${1:-develop}
 if [ -z "${JAVA_HOME}" ]; then echo "JAVA_HOME not set. Run using JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk-x.y.z.jdk/Contents/Home/ ./build.sh"; exit 1; fi
 if [ ! -x ./tools/packager/jpackager ]; then echo "../tools/packager/jpackager not executable."; exit 1; fi
 if [ ! -x ./tools/create-dmg/create-dmg.sh ]; then echo "./tools/create-dmg/create-dmg.sh not executable."; exit 1; fi
-command -v jq >/dev/null 2>&1 || { echo >&2 "jq not found."; exit 1; }
+command -v jq >/dev/null 2>&1 || { echo >&2 "jq not found. Fix by 'brew install jq'."; exit 1; }
 command -v curl >/dev/null 2>&1 || { echo >&2 "curl not found."; exit 1; }
 command -v unzip >/dev/null 2>&1 || { echo >&2 "unzip not found."; exit 1; }
 command -v codesign >/dev/null 2>&1 || { echo >&2 "codesign not found. Fix by 'xcode-select --install'."; exit 1; }
