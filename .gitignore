@@ -1,5 +1,4 @@
 # created during build
 buildkit.zip
-libs
-/app
+buildkit/
 *.dmg
