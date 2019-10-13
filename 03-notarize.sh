@@ -20,19 +20,18 @@ NOTARIZATION_REQUEST_UUID=$(xcrun altool --notarize-app --primary-bundle-id "org
 echo "Upload finished. RequestUUID: ${NOTARIZATION_REQUEST_UUID}"
 
 # wait for notarization to finish
-echo -n "Querying notarization request status..."
 while :; do
+  echo "Querying notarization request status..."
+  sleep 30
   NOTARIZATION_INFO=$(xcrun altool --notarization-info "${NOTARIZATION_REQUEST_UUID}" --username "${AC_USERNAME}" --password "${AC_PASSWORD}")
   if [[ "${NOTARIZATION_INFO}" =~ "in progress" ]]; then
-    echo -n "."
-    sleep 30
     continue
   elif [[ "${NOTARIZATION_INFO}" =~ "success" ]]; then
-    echo " notarization successful, see notarization info:"
+    echo "Notarization successful, see notarization info:"
     echo "${NOTARIZATION_INFO}"
     break
   else
-    echo " notarization failed, see notarization info:"
+    echo "Notarization failed, see notarization info:"
     echo "${NOTARIZATION_INFO}"
     break
   fi
