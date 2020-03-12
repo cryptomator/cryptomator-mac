@@ -32,8 +32,6 @@
   <string>cryptomator.org</string>
   <key>NSHighResolutionCapable</key>
   <string>true</string>
-  <key>NSRequiresAquaSystemAppearance</key>
-  <true/> <!-- our "add vault" context menu doesn't work otherwise. See https://github.com/cryptomator/cryptomator-mac/issues/5 -->
   <key>NSUbiquitousContainers</key>
   <dict>
     <key>iCloud.com.setolabs.Cryptomator</key>
