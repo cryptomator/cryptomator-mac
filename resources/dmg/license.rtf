@@ -20,13 +20,14 @@ This program is distributed in the hope that it will be useful, but WITHOUT ANY 
 You should have received a copy of the GNU General Public License along with this program.  If not, see http://www.gnu.org/licenses/.\
 \
 
-\f0\b Cryptomator uses 49 third-party dependencies under the following licenses:
+\f0\b Cryptomator uses 50 third-party dependencies under the following licenses:
 \f1\b0 \
 	Apache License v2.0:\
 		\'95 HKDF-RFC5869 (at.favre.lib:hkdf:1.0.2 - https://github.com/patrickfav/hkdf)\
-		\'95 jffi (com.github.jnr:jffi:1.2.16 - http://github.com/jnr/jffi)\
-		\'95 jnr-constants (com.github.jnr:jnr-constants:0.9.9 - http://github.com/jnr/jnr-constants)\
-		\'95 jnr-ffi (com.github.jnr:jnr-ffi:2.1.7 - http://github.com/jnr/jnr-ffi)\
+		\'95 jffi (com.github.jnr:jffi:1.2.23 - http://github.com/jnr/jffi)\
+		\'95 jnr-a64asm (com.github.jnr:jnr-a64asm:1.0.0 - http://nexus.sonatype.org/oss-repository-hosting.html/jnr-a64asm)\
+		\'95 jnr-constants (com.github.jnr:jnr-constants:0.9.15 - http://github.com/jnr/jnr-constants)\
+		\'95 jnr-ffi (com.github.jnr:jnr-ffi:2.1.12 - http://github.com/jnr/jnr-ffi)\
 		\'95 FindBugs-jsr305 (com.google.code.findbugs:jsr305:3.0.2 - http://findbugs.sourceforge.net/)\
 		\'95 Gson (com.google.code.gson:gson:2.8.6 - https://github.com/google/gson/gson)\
 		\'95 Dagger (com.google.dagger:dagger:2.26 - https://github.com/google/dagger)\
@@ -51,13 +52,11 @@ You should have received a copy of the GNU General Public License along with thi
 		\'95 Jetty :: Webapp Application Support (org.eclipse.jetty:jetty-webapp:9.4.17.v20190418 - http://www.eclipse.org/jetty)\
 		\'95 Jetty :: XML utilities (org.eclipse.jetty:jetty-xml:9.4.17.v20190418 - http://www.eclipse.org/jetty)\
 	BSD:\
-		\'95 ASM Core (org.ow2.asm:asm:5.0.3 - http://asm.objectweb.org/asm/)\
-		\'95 ASM Analysis (org.ow2.asm:asm-analysis:5.0.3 - http://asm.objectweb.org/asm-analysis/)\
-		\'95 ASM Commons (org.ow2.asm:asm-commons:5.0.3 - http://asm.objectweb.org/asm-commons/)\
-		\'95 ASM Tree (org.ow2.asm:asm-tree:5.0.3 - http://asm.objectweb.org/asm-tree/)\
-		\'95 ASM Util (org.ow2.asm:asm-util:5.0.3 - http://asm.objectweb.org/asm-util/)\
-	Common Public License - v 1.0:\
-		\'95 jnr-posix (com.github.jnr:jnr-posix:3.0.44 - http://nexus.sonatype.org/oss-repository-hosting.html/jnr-posix)\
+		\'95 asm (org.ow2.asm:asm:7.1 - http://asm.ow2.org/)\
+		\'95 asm-analysis (org.ow2.asm:asm-analysis:7.1 - http://asm.ow2.org/)\
+		\'95 asm-commons (org.ow2.asm:asm-commons:7.1 - http://asm.ow2.org/)\
+		\'95 asm-tree (org.ow2.asm:asm-tree:7.1 - http://asm.ow2.org/)\
+		\'95 asm-util (org.ow2.asm:asm-util:7.1 - http://asm.ow2.org/)\
 	Eclipse Public License - Version 1.0:\
 		\'95 Jetty :: Http Utility (org.eclipse.jetty:jetty-http:9.4.17.v20190418 - http://www.eclipse.org/jetty)\
 		\'95 Jetty :: IO Utility (org.eclipse.jetty:jetty-io:9.4.17.v20190418 - http://www.eclipse.org/jetty)\
@@ -67,29 +66,31 @@ You should have received a copy of the GNU General Public License along with thi
 		\'95 Jetty :: Utilities (org.eclipse.jetty:jetty-util:9.4.17.v20190418 - http://www.eclipse.org/jetty)\
 		\'95 Jetty :: Webapp Application Support (org.eclipse.jetty:jetty-webapp:9.4.17.v20190418 - http://www.eclipse.org/jetty)\
 		\'95 Jetty :: XML utilities (org.eclipse.jetty:jetty-xml:9.4.17.v20190418 - http://www.eclipse.org/jetty)\
+	Eclipse Public License - v 2.0:\
+		\'95 jnr-posix (com.github.jnr:jnr-posix:3.0.54 - http://nexus.sonatype.org/oss-repository-hosting.html/jnr-posix)\
 	GPLv2:\
-		\'95 jnr-posix (com.github.jnr:jnr-posix:3.0.44 - http://nexus.sonatype.org/oss-repository-hosting.html/jnr-posix)\
+		\'95 jnr-posix (com.github.jnr:jnr-posix:3.0.54 - http://nexus.sonatype.org/oss-repository-hosting.html/jnr-posix)\
 	GPLv2+CE:\
 		\'95 Java Servlet API (javax.servlet:javax.servlet-api:3.1.0 - http://servlet-spec.java.net)\
-		\'95 javafx-base (org.openjfx:javafx-base:14-ea+8 - https://openjdk.java.net/projects/openjfx/javafx-base/)\
-		\'95 javafx-controls (org.openjfx:javafx-controls:14-ea+8 - https://openjdk.java.net/projects/openjfx/javafx-controls/)\
-		\'95 javafx-fxml (org.openjfx:javafx-fxml:14-ea+8 - https://openjdk.java.net/projects/openjfx/javafx-fxml/)\
-		\'95 javafx-graphics (org.openjfx:javafx-graphics:14-ea+8 - https://openjdk.java.net/projects/openjfx/javafx-graphics/)\
+		\'95 javafx-base (org.openjfx:javafx-base:14 - https://openjdk.java.net/projects/openjfx/javafx-base/)\
+		\'95 javafx-controls (org.openjfx:javafx-controls:14 - https://openjdk.java.net/projects/openjfx/javafx-controls/)\
+		\'95 javafx-fxml (org.openjfx:javafx-fxml:14 - https://openjdk.java.net/projects/openjfx/javafx-fxml/)\
+		\'95 javafx-graphics (org.openjfx:javafx-graphics:14 - https://openjdk.java.net/projects/openjfx/javafx-graphics/)\
 	LGPL 2.1:\
 		\'95 dbus-java (com.github.hypfvieh:dbus-java:3.0.2 - https://github.com/hypfvieh/dbus-java/dbus-java)\
-		\'95 jnr-posix (com.github.jnr:jnr-posix:3.0.44 - http://nexus.sonatype.org/oss-repository-hosting.html/jnr-posix)\
+		\'95 jnr-posix (com.github.jnr:jnr-posix:3.0.54 - http://nexus.sonatype.org/oss-repository-hosting.html/jnr-posix)\
 		\'95 Java Native Access (net.java.dev.jna:jna:5.1.0 - https://github.com/java-native-access/jna)\
 		\'95 Java Native Access Platform (net.java.dev.jna:jna-platform:5.1.0 - https://github.com/java-native-access/jna)\
 	MIT License:\
-		\'95 java jwt (com.auth0:java-jwt:3.8.3 - https://github.com/auth0/java-jwt)\
+		\'95 java jwt (com.auth0:java-jwt:3.10.0 - https://github.com/auth0/java-jwt)\
 		\'95 java-utils (com.github.hypfvieh:java-utils:1.0.5 - https://github.com/hypfvieh/java-utils)\
 		\'95 jnr-x86asm (com.github.jnr:jnr-x86asm:1.0.2 - http://github.com/jnr/jnr-x86asm)\
-		\'95 jnr-fuse (com.github.serceman:jnr-fuse:0.5.3 - no url defined)\
+		\'95 jnr-fuse (com.github.serceman:jnr-fuse:0.5.4 - no url defined)\
 		\'95 zxcvbn4j (com.nulab-inc:zxcvbn:1.3.0 - https://github.com/nulab/zxcvbn4j)\
 		\'95 secret-service (de.swiesend:secret-service:1.0.0-RC.3 - https://github.com/swiesend/secret-service)\
 		\'95 Checker Qual (org.checkerframework:checker-qual:2.8.1 - https://checkerframework.org)\
 		\'95 Animal Sniffer Annotations (org.codehaus.mojo:animal-sniffer-annotations:1.18 - http://www.mojohaus.org/animal-sniffer/animal-sniffer-annotations)\
-		\'95 SLF4J API Module (org.slf4j:slf4j-api:1.7.29 - http://www.slf4j.org)\
+		\'95 SLF4J API Module (org.slf4j:slf4j-api:1.7.30 - http://www.slf4j.org)\
 	The BSD 2-Clause License:\
 		\'95 EasyBind (org.fxmisc.easybind:easybind:1.0.3 - http://www.fxmisc.org/easybind/)\
 \
