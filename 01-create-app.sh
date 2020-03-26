@@ -19,6 +19,7 @@ fi
 # setting variables
 FIRST_COMMIT='b78ee8295df7f66055b9aaa504c0008aa51ee1d4'
 COMMIT_COUNT=$((`curl -s "https://api.github.com/repos/cryptomator/cryptomator/compare/${FIRST_COMMIT}...${GIT_BRANCH}" | jq -r '.total_commits'` + 1))
+INSTALLER_COMMIT_COUNT=`git rev-list --count HEAD`
 BUILD_VERSION=`cat buildkit/libs/version.txt`
 FFI_VERSION=`cat buildkit/libs/ffi-version.txt`
 
@@ -35,6 +36,7 @@ echo "Building Cryptomator ${BUILD_VERSION} (${COMMIT_COUNT})..."
     --main-jar launcher-${BUILD_VERSION}.jar  \
     --class org.cryptomator.launcher.Cryptomator \
     --jvm-args "-Djava.library.path=\"\$APPDIR/Java:\$APPDIR/MacOS:/usr/local/lib\"" \
+    --jvm-args "-Dcryptomator.buildNumber=\"dmg-$COMMIT_COUNT.$INSTALLER_COMMIT_COUNT\"" \
     --jvm-args "-Dcryptomator.logDir=\"~/Library/Logs/Cryptomator\"" \
     --jvm-args "-Dcryptomator.settingsPath=\"~/Library/Application Support/Cryptomator/settings.json\"" \
     --jvm-args "-Dcryptomator.ipcPortPath=\"~/Library/Application Support/Cryptomator/ipcPort.bin\"" \
@@ -55,5 +57,5 @@ cp resources/app/Info.plist buildkit/app/Cryptomator.app/Contents/
 cp resources/app/Cryptomator.icns buildkit/app/Cryptomator.app/Contents/Resources/
 cp resources/app/Cryptomator-Vault.icns buildkit/app/Cryptomator.app/Contents/Resources/
 cp libMacFunctions.dylib buildkit/app/Cryptomator.app/Contents/Java/
-sed -i '' "s|###BUILD_VERSION###|${BUILD_VERSION}|g" buildkit/app/Cryptomator.app/Contents/Info.plist
-sed -i '' "s|###COMMIT_COUNT###|${COMMIT_COUNT}|g" buildkit/app/Cryptomator.app/Contents/Info.plist
+sed -i '' "s|###BUNDLE_SHORT_VERSION_STRING###|${BUILD_VERSION}|g" buildkit/app/Cryptomator.app/Contents/Info.plist
+sed -i '' "s|###BUNDLE_VERSION###|${COMMIT_COUNT}|g" buildkit/app/Cryptomator.app/Contents/Info.plist

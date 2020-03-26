@@ -21,13 +21,13 @@
   <key>CFBundlePackageType</key>
   <string>APPL</string>
   <key>CFBundleShortVersionString</key>
-  <string>###BUILD_VERSION###</string>
+  <string>###BUNDLE_SHORT_VERSION_STRING###</string>
   <key>CFBundleSignature</key>
   <string>????</string>
   <key>LSApplicationCategoryType</key>
   <string>public.app-category.utilities</string>
   <key>CFBundleVersion</key>
-  <string>###COMMIT_COUNT###</string>
+  <string>###BUNDLE_VERSION###</string>
   <key>NSHumanReadableCopyright</key>
   <string>cryptomator.org</string>
   <key>NSHighResolutionCapable</key>
