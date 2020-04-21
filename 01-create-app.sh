@@ -11,8 +11,8 @@ command -v unzip >/dev/null 2>&1 || { echo >&2 "unzip not found."; exit 1; }
 echo "Unzipping buildkit..."
 unzip -q buildkit.zip -d buildkit
 if [ $? -ne 0 ]; then
-  echo >&2 "Unzipping buildkit failed.";
-  exit 1;
+  echo >&2 "Unzipping buildkit failed."
+  exit 1
 fi
 
 # setting variables

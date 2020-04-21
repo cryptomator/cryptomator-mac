@@ -33,7 +33,7 @@ while :; do
   else
     echo "Notarization failed, see notarization info:"
     echo "${NOTARIZATION_INFO}"
-    break
+    exit 1
   fi
 done
 

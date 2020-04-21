@@ -9,7 +9,7 @@ if [[ ! `security find-identity -v -p codesigning | grep -w "${CODESIGN_IDENTITY
 
 # codesign
 echo "Codesigning libs in runtime..."
-find buildkit/app/Cryptomator.app/Contents/runtime -name '*.dylib' -exec codesign -s ${CODESIGN_IDENTITY} {} \;
+find buildkit/app/Cryptomator.app/Contents/runtime/Contents/MacOS -name '*.dylib' -exec codesign --force -s ${CODESIGN_IDENTITY} {} \;
 for JAR_PATH in buildkit/app/Cryptomator.app/Contents/app/*.jar; do
   if [[ `unzip -l ${JAR_PATH} | grep '.dylib\|.jnilib'` ]]; then
     JAR_FILENAME=$(basename ${JAR_PATH})
