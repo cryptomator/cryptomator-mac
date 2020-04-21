@@ -3,7 +3,6 @@ GIT_BRANCH=${1:-develop}
 
 # check preconditions
 if [ -z "${JAVA_HOME}" ]; then echo "JAVA_HOME not set. Run using JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk-x.y.z.jdk/Contents/Home/ ./build.sh"; exit 1; fi
-if [ ! -x ./tools/packager/jpackager ]; then echo "../tools/packager/jpackager not executable."; exit 1; fi
 command -v jq >/dev/null 2>&1 || { echo >&2 "jq not found. Fix by 'brew install jq'."; exit 1; }
 command -v curl >/dev/null 2>&1 || { echo >&2 "curl not found."; exit 1; }
 command -v unzip >/dev/null 2>&1 || { echo >&2 "unzip not found."; exit 1; }
@@ -29,33 +28,42 @@ curl -o libMacFunctions.dylib -L https://github.com/cryptomator/native-functions
 
 # create .app
 echo "Building Cryptomator ${BUILD_VERSION} (${COMMIT_COUNT})..."
-./tools/packager/jpackager create-image \
+${JAVA_HOME}/bin/jlink \
     --verbose \
-    --echo-mode \
-    --input buildkit/libs \
-    --main-jar launcher-${BUILD_VERSION}.jar  \
-    --class org.cryptomator.launcher.Cryptomator \
-    --jvm-args "-Djava.library.path=\"\$APPDIR/Java:\$APPDIR/MacOS:/usr/local/lib\"" \
-    --jvm-args "-Dcryptomator.buildNumber=\"dmg-$COMMIT_COUNT.$INSTALLER_COMMIT_COUNT\"" \
-    --jvm-args "-Dcryptomator.logDir=\"~/Library/Logs/Cryptomator\"" \
-    --jvm-args "-Dcryptomator.settingsPath=\"~/Library/Application Support/Cryptomator/settings.json\"" \
-    --jvm-args "-Dcryptomator.ipcPortPath=\"~/Library/Application Support/Cryptomator/ipcPort.bin\"" \
-    --jvm-args "-Dcryptomator.mountPointsDir=\"/Volumes\"" \
-    --jvm-args "-Xss2m" \
-    --jvm-args "-Xmx512m" \
-    --output buildkit/app \
-    --force \
-    --identifier org.cryptomator \
-    --name Cryptomator \
-    --version ${BUILD_VERSION} \
-    --module-path ${JAVA_HOME}/jmods\
+    --output runtimeImage \
+    --module-path ${JAVA_HOME}/jmods \
     --add-modules java.base,java.logging,java.xml,java.sql,java.management,java.security.sasl,java.naming,java.datatransfer,java.security.jgss,java.rmi,java.scripting,java.prefs,java.desktop,jdk.unsupported,java.net.http,jdk.crypto.ec \
-    --strip-native-commands
+    --no-header-files \
+    --no-man-pages \
+    --strip-debug \
+    --strip-native-commands \
+    --compress=1
+
+${JAVA_HOME}/bin/jpackage \
+    --verbose \
+    --type app-image \
+    --runtime-image runtimeImage \
+    --input buildkit/libs \
+    --dest buildkit/app \
+    --name Cryptomator \
+    --vendor "Skymatic GmbH" \
+    --copyright "(C) 2016 - 2020 Skymatic GmbH" \
+    --app-version ${BUILD_VERSION} \
+    --java-options "-Djava.library.path=\"\$APPDIR/app:\$APPDIR/MacOS:/usr/local/lib\"" \
+    --java-options "-Dcryptomator.buildNumber=\"dmg-$COMMIT_COUNT.$INSTALLER_COMMIT_COUNT\"" \
+    --java-options "-Dcryptomator.logDir=\"~/Library/Logs/Cryptomator\"" \
+    --java-options "-Dcryptomator.settingsPath=\"~/Library/Application Support/Cryptomator/settings.json\"" \
+    --java-options "-Dcryptomator.ipcPortPath=\"~/Library/Application Support/Cryptomator/ipcPort.bin\"" \
+    --java-options "-Dcryptomator.mountPointsDir=\"/Volumes\"" \
+    --java-options "-Xss2m" \
+    --java-options "-Xmx512m" \
+    --mac-package-identifier org.cryptomator \
+    --resource-dir resources/app \
+    --main-class org.cryptomator.launcher.Cryptomator \
+    --main-jar launcher-${BUILD_VERSION}.jar 
 
 # adjust .app
-cp resources/app/Info.plist buildkit/app/Cryptomator.app/Contents/
-cp resources/app/Cryptomator.icns buildkit/app/Cryptomator.app/Contents/Resources/
 cp resources/app/Cryptomator-Vault.icns buildkit/app/Cryptomator.app/Contents/Resources/
-cp libMacFunctions.dylib buildkit/app/Cryptomator.app/Contents/Java/
+cp libMacFunctions.dylib buildkit/app/Cryptomator.app/Contents/app/
 sed -i '' "s|###BUNDLE_SHORT_VERSION_STRING###|${BUILD_VERSION}|g" buildkit/app/Cryptomator.app/Contents/Info.plist
 sed -i '' "s|###BUNDLE_VERSION###|${COMMIT_COUNT}|g" buildkit/app/Cryptomator.app/Contents/Info.plist
