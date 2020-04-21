@@ -8,11 +8,9 @@ command -v codesign >/dev/null 2>&1 || { echo >&2 "codesign not found. Fix by 'x
 if [[ ! `security find-identity -v -p codesigning | grep -w "${CODESIGN_IDENTITY}"` ]]; then echo "Given codesign identity is invalid."; exit 1; fi
 
 # codesign
-echo "Codesigning libs in Java.runtime..."
-find buildkit/app/Cryptomator.app/Contents/PlugIns/Java.runtime -name '*.dylib' -exec codesign -s ${CODESIGN_IDENTITY} {} \;
-echo "Codesigning jspawnhelper in Java.runtime..."
-codesign -o runtime -s ${CODESIGN_IDENTITY} buildkit/app/Cryptomator.app/Contents/PlugIns/Java.runtime/Contents/Home/lib/jspawnhelper
-for JAR_PATH in buildkit/app/Cryptomator.app/Contents/Java/*.jar; do
+echo "Codesigning libs in runtime..."
+find buildkit/app/Cryptomator.app/Contents/runtime -name '*.dylib' -exec codesign -s ${CODESIGN_IDENTITY} {} \;
+for JAR_PATH in buildkit/app/Cryptomator.app/Contents/app/*.jar; do
   if [[ `unzip -l ${JAR_PATH} | grep '.dylib\|.jnilib'` ]]; then
     JAR_FILENAME=$(basename ${JAR_PATH})
     OUTPUT_PATH=${JAR_PATH%.*}
@@ -28,6 +26,6 @@ for JAR_PATH in buildkit/app/Cryptomator.app/Contents/Java/*.jar; do
   fi
 done
 echo "Codesigning libMacFunctions.dylib..."
-codesign -s ${CODESIGN_IDENTITY} buildkit/app/Cryptomator.app/Contents/Java/libMacFunctions.dylib
+codesign -s ${CODESIGN_IDENTITY} buildkit/app/Cryptomator.app/Contents/app/libMacFunctions.dylib
 echo "Codesigning Cryptomator.app..."
 codesign --force --deep --entitlements resources/app/Cryptomator.entitlements -o runtime -s ${CODESIGN_IDENTITY} buildkit/app/Cryptomator.app
