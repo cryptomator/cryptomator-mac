@@ -15,7 +15,7 @@ rm -rf buildkit.zip buildkit libMacFunctions.dylib Cryptomator.zip *.dmg
 
 # download buildkit
 echo "Downloading buildkit with version ${TAG_VERSION}..."
-curl -o buildkit.zip -L https://dl.bintray.com/cryptomator/cryptomator/${TAG_VERSION}/buildkit-mac.zip
+curl -o buildkit.zip -L https://github.com/cryptomator/cryptomator/releases/download/${TAG_VERSION}/buildkit-mac.zip
 
 # build Cryptomator with all steps for production release
 ./01-create-app.sh ${GIT_BRANCH} || exit 1
