@@ -49,7 +49,7 @@ ${JAVA_HOME}/bin/jpackage \
     --vendor "Skymatic GmbH" \
     --copyright "(C) 2016 - 2020 Skymatic GmbH" \
     --app-version ${BUILD_VERSION} \
-    --java-options "-Djava.library.path=\"\$APPDIR/app:\$APPDIR/MacOS:/usr/local/lib\"" \
+    --java-options "-Djava.library.path=\"\$APPDIR:\$APPDIR/../MacOS:/usr/local/lib\"" \
     --java-options "-Dcryptomator.buildNumber=\"dmg-$COMMIT_COUNT.$INSTALLER_COMMIT_COUNT\"" \
     --java-options "-Dcryptomator.logDir=\"~/Library/Logs/Cryptomator\"" \
     --java-options "-Dcryptomator.settingsPath=\"~/Library/Application Support/Cryptomator/settings.json\"" \
