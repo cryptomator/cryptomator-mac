@@ -24,4 +24,5 @@ echo "Creating dmg..."
   --eula "resources/dmg/license.rtf" \
   --icon ".background" 128 758 \
   --icon ".fseventsd" 320 758 \
+  --icon ".VolumeIcon.icns" 512 758 \
   Cryptomator-${BUILD_VERSION}.dmg buildkit/app
