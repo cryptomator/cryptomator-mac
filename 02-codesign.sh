@@ -25,7 +25,5 @@ for JAR_PATH in buildkit/app/Cryptomator.app/Contents/app/*.jar; do
     rm -r ${OUTPUT_PATH}
   fi
 done
-echo "Codesigning libMacFunctions.dylib..."
-codesign -s ${CODESIGN_IDENTITY} buildkit/app/Cryptomator.app/Contents/app/libMacFunctions.dylib
 echo "Codesigning Cryptomator.app..."
 codesign --force --deep --entitlements resources/app/Cryptomator.entitlements -o runtime -s ${CODESIGN_IDENTITY} buildkit/app/Cryptomator.app

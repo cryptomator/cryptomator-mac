@@ -11,7 +11,7 @@ if [ ! -x ./03-notarize.sh ]; then echo "./03-notarize.sh not executable."; exit
 if [ ! -x ./04-create-dmg.sh ]; then echo "./04-create-dmg.sh not executable."; exit 1; fi
 
 # cleanup
-rm -rf buildkit.zip buildkit libMacFunctions.dylib runtimeImage Cryptomator.zip *.dmg
+rm -rf buildkit.zip buildkit runtimeImage Cryptomator.zip *.dmg
 
 # download buildkit
 echo "Downloading buildkit with version ${TAG_VERSION}..."
