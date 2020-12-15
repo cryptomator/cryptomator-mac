@@ -5,7 +5,7 @@ BUILD_VERSION=`cat buildkit/libs/version.txt`
 if [ ! -x ./tools/create-dmg/create-dmg.sh ]; then echo "./tools/create-dmg/create-dmg.sh not executable."; exit 1; fi
 
 # prepare .dmg
-cp resources/dmg/FUSE\ for\ macOS.webloc buildkit/app/
+cp resources/dmg/macFUSE.webloc buildkit/app/
 
 # create .dmg
 echo "Creating dmg..."
@@ -18,8 +18,8 @@ echo "Creating dmg..."
   --icon-size 128 \
   --icon "Cryptomator.app" 128 245 \
   --hide-extension "Cryptomator.app" \
-  --icon "FUSE for macOS.webloc" 320 501 \
-  --hide-extension "FUSE for macOS.webloc" \
+  --icon "macFUSE.webloc" 320 501 \
+  --hide-extension "macFUSE.webloc" \
   --app-drop-link 512 245 \
   --eula "resources/dmg/license.rtf" \
   --icon ".background" 128 758 \
