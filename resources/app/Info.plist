@@ -88,6 +88,29 @@
         </array>
       </dict>
     </dict>
+    <dict>
+      <key>UTTypeIdentifier</key>
+      <string>org.cryptomator.encrypted-cryptomator-vault-file</string>
+      <key>UTTypeConformsTo</key>
+      <array>
+        <string>public.data</string>
+      </array>
+      <key>UTTypeDescription</key>
+      <string>Encrypted Cryptomator vault file</string>
+      <key>UTTypeIconFile</key>
+      <string>Cryptomator-Vault.icns</string>
+      <key>UTTypeTagSpecification</key>
+      <dict>
+        <key>public.filename-extension</key>
+        <array>
+          <string>c9r</string>
+        </array>
+        <key>public.mime-type</key>
+        <array>
+          <string>application/x-vnd.encrypted-cryptomator-vault-file</string>
+        </array>
+      </dict>
+    </dict>
   </array>
   <!-- allow utilization of integrated GPU, see https://developer.apple.com/library/mac/qa/qa1734/_index.html -->
   <key>NSSupportsAutomaticGraphicsSwitching</key>
