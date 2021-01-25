@@ -90,13 +90,13 @@
     </dict>
     <dict>
       <key>UTTypeIdentifier</key>
-      <string>org.cryptomator.encrypted-cryptomator-vault-file</string>
+      <string>org.cryptomator.encrypted-data</string>
       <key>UTTypeConformsTo</key>
       <array>
         <string>public.data</string>
       </array>
       <key>UTTypeDescription</key>
-      <string>Encrypted Cryptomator vault file</string>
+      <string>Cryptomator Encrypted Data</string>
       <key>UTTypeIconFile</key>
       <string>Cryptomator-Vault.icns</string>
       <key>UTTypeTagSpecification</key>
@@ -104,10 +104,11 @@
         <key>public.filename-extension</key>
         <array>
           <string>c9r</string>
+          <string>c9s</string>
         </array>
         <key>public.mime-type</key>
         <array>
-          <string>application/x-vnd.encrypted-cryptomator-vault-file</string>
+          <string>application/x-vnd.cryptomator.encrypted-data</string>
         </array>
       </dict>
     </dict>
