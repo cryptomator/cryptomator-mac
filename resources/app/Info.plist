@@ -84,7 +84,31 @@
         </array>
         <key>public.mime-type</key>
         <array>
-          <string>application/x-vnd.cryptomator-vault-metadata</string>
+          <string>application/x-vnd.cryptomator.vault-metadata</string>
+        </array>
+      </dict>
+    </dict>
+    <dict>
+      <key>UTTypeIdentifier</key>
+      <string>org.cryptomator.encrypted-data</string>
+      <key>UTTypeConformsTo</key>
+      <array>
+        <string>public.data</string>
+      </array>
+      <key>UTTypeDescription</key>
+      <string>Cryptomator Encrypted Data</string>
+      <key>UTTypeIconFile</key>
+      <string>Cryptomator-Vault.icns</string>
+      <key>UTTypeTagSpecification</key>
+      <dict>
+        <key>public.filename-extension</key>
+        <array>
+          <string>c9r</string>
+          <string>c9s</string>
+        </array>
+        <key>public.mime-type</key>
+        <array>
+          <string>application/x-vnd.cryptomator.encrypted-data</string>
         </array>
       </dict>
     </dict>
