@@ -16,8 +16,7 @@ if [ $? -ne 0 ]; then
 fi
 
 # setting variables
-FIRST_COMMIT='b78ee8295df7f66055b9aaa504c0008aa51ee1d4'
-COMMIT_COUNT=$((`curl -s "https://api.github.com/repos/cryptomator/cryptomator/compare/${FIRST_COMMIT}...${GIT_BRANCH}" | jq -r '.total_commits'` + 1))
+COMMIT_COUNT=`curl -I -k "https://api.github.com/repos/cryptomator/cryptomator/commits?per_page=1&sha=${GIT_BRANCH}" | sed -n '/^[Ll]ink:/ s/.*"next".*page=\([0-9]*\).*"last".*/\1/p'`
 INSTALLER_COMMIT_COUNT=`git rev-list --count HEAD`
 BUILD_VERSION=`cat buildkit/libs/version.txt`
 
