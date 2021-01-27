@@ -42,7 +42,7 @@ ${JAVA_HOME}/bin/jpackage \
     --dest buildkit/app \
     --name Cryptomator \
     --vendor "Skymatic GmbH" \
-    --copyright "(C) 2016 - 2020 Skymatic GmbH" \
+    --copyright "(C) 2016 - 2021 Skymatic GmbH" \
     --app-version ${BUILD_VERSION} \
     --java-options "-Djava.library.path=\"\$APPDIR:\$APPDIR/../MacOS:/usr/local/lib\"" \
     --java-options "-Dcryptomator.buildNumber=\"dmg-$COMMIT_COUNT.$INSTALLER_COMMIT_COUNT\"" \
