@@ -1,6 +1,7 @@
 #!/bin/bash
 TAG_VERSION=${1:-snapshot}
 GIT_BRANCH=${1:-develop}
+APP_VERSION=`echo "${1:-0.0.1}" | sed -rn 's/.*([0-9]+\.[0-9]+\.[0-9]+).*/\1/p'`
 CODESIGN_IDENTITY=${2:-307EF36B2A2EF98EB0AC0D24603A201BBDD4798B}
 
 # check preconditions
@@ -18,7 +19,7 @@ echo "Downloading buildkit with version ${TAG_VERSION}..."
 curl -o buildkit.zip -L https://github.com/cryptomator/cryptomator/releases/download/${TAG_VERSION}/buildkit-mac.zip
 
 # build Cryptomator with all steps for production release
-./01-create-app.sh ${GIT_BRANCH} || exit 1
+./01-create-app.sh ${GIT_BRANCH} ${APP_VERSION} || exit 1
 ./02-codesign.sh ${CODESIGN_IDENTITY} || exit 1
 ./03-notarize.sh || exit 1
 ./04-create-dmg.sh || exit 1

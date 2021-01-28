@@ -1,5 +1,6 @@
 #!/bin/bash
 GIT_BRANCH=${1:-develop}
+APP_VERSION=${2:-0.0.1}
 
 # check preconditions
 if [ -z "${JAVA_HOME}" ]; then echo "JAVA_HOME not set. Run using JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk-x.y.z.jdk/Contents/Home/ ./build.sh"; exit 1; fi
@@ -16,7 +17,7 @@ if [ $? -ne 0 ]; then
 fi
 
 # setting variables
-COMMIT_COUNT=`curl -I -k "https://api.github.com/repos/cryptomator/cryptomator/commits?per_page=1&sha=${GIT_BRANCH}" | sed -n '/^[Ll]ink:/ s/.*"next".*page=\([0-9]*\).*"last".*/\1/p'`
+COMMIT_COUNT=`curl -I "https://api.github.com/repos/cryptomator/cryptomator/commits?per_page=1&sha=${GIT_BRANCH}" | sed -rn '/^[Ll]ink:/s/.*page=([0-9]{4,}).*/\1/p'`
 INSTALLER_COMMIT_COUNT=`git rev-list --count HEAD`
 BUILD_VERSION=`cat buildkit/libs/version.txt`
 
@@ -42,7 +43,7 @@ ${JAVA_HOME}/bin/jpackage \
     --name Cryptomator \
     --vendor "Skymatic GmbH" \
     --copyright "(C) 2016 - 2021 Skymatic GmbH" \
-    --app-version ${BUILD_VERSION} \
+    --app-version ${APP_VERSION} \
     --java-options "-Djava.library.path=\"\$APPDIR:\$APPDIR/../MacOS:/usr/local/lib\"" \
     --java-options "-Dcryptomator.buildNumber=\"dmg-$COMMIT_COUNT.$INSTALLER_COMMIT_COUNT\"" \
     --java-options "-Dcryptomator.logDir=\"~/Library/Logs/Cryptomator\"" \
