@@ -49,6 +49,7 @@ ${JAVA_HOME}/bin/jpackage \
     --java-options "-Dcryptomator.logDir=\"~/Library/Logs/Cryptomator\"" \
     --java-options "-Dcryptomator.settingsPath=\"~/Library/Application Support/Cryptomator/settings.json\"" \
     --java-options "-Dcryptomator.ipcPortPath=\"~/Library/Application Support/Cryptomator/ipcPort.bin\"" \
+    --java-options "-Dcryptomator.showTrayIcon=true" \
     --java-options "-Xss2m" \
     --java-options "-Xmx512m" \
     --mac-package-identifier org.cryptomator \
