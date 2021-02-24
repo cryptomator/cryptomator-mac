@@ -27,7 +27,7 @@ ${JAVA_HOME}/bin/jlink \
     --verbose \
     --output runtimeImage \
     --module-path ${JAVA_HOME}/jmods \
-    --add-modules java.base,java.logging,java.xml,java.sql,java.management,java.security.sasl,java.naming,java.datatransfer,java.security.jgss,java.rmi,java.scripting,java.prefs,java.desktop,jdk.unsupported,java.net.http,jdk.crypto.ec \
+    --add-modules java.base,java.logging,java.xml,java.sql,java.management,java.security.sasl,java.naming,java.datatransfer,java.security.jgss,java.rmi,java.scripting,java.prefs,java.desktop,jdk.unsupported,java.net.http,jdk.crypto.ec,jdk.accessibility \
     --no-header-files \
     --no-man-pages \
     --strip-debug \
