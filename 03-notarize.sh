@@ -1,4 +1,5 @@
 #!/bin/bash
+set -euo pipefail
 
 # check preconditions
 command -v ditto >/dev/null 2>&1 || { echo >&2 "ditto not found."; exit 1; }

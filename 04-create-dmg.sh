@@ -1,4 +1,6 @@
 #!/bin/bash
+set -euo pipefail
+
 BUILD_VERSION=`cat buildkit/libs/version.txt`
 
 # check preconditions

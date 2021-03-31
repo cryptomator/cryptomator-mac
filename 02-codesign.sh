@@ -1,4 +1,6 @@
 #!/bin/bash
+set -euo pipefail
+
 CODESIGN_IDENTITY=${1:-INVALID_IDENTITY}
 
 # check preconditions

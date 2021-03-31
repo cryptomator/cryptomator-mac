@@ -1,4 +1,6 @@
 #!/bin/bash
+set -euo pipefail
+
 GIT_BRANCH=${1:-develop}
 CODESIGN_IDENTITY=${2:-799C678CABFF99CD93DB2412E7C688CFB883A594}
 

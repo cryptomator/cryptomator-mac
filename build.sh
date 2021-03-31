@@ -1,4 +1,6 @@
 #!/bin/bash
+set -euo pipefail
+
 TAG_VERSION=${1:-snapshot}
 GIT_BRANCH=${1:-develop}
 APP_VERSION=`echo "${1:-0.0.1}" | sed -rn 's/.*([0-9]+\.[0-9]+\.[0-9]+).*/\1/p'`

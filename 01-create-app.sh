@@ -1,4 +1,6 @@
 #!/bin/bash
+set -euo pipefail
+
 GIT_BRANCH=${1:-develop}
 APP_VERSION=${2:-0.0.1}
 
@@ -11,13 +13,9 @@ command -v unzip >/dev/null 2>&1 || { echo >&2 "unzip not found."; exit 1; }
 # unzip buildkit
 echo "Unzipping buildkit..."
 unzip -q buildkit.zip -d buildkit
-if [ $? -ne 0 ]; then
-  echo >&2 "Unzipping buildkit failed."
-  exit 1
-fi
 
 # setting variables
-COMMIT_COUNT=`curl -I "https://api.github.com/repos/cryptomator/cryptomator/commits?per_page=1&sha=${GIT_BRANCH}" | sed -rn '/^[Ll]ink:/s/.*page=([0-9]{4,}).*/\1/p'`
+COMMIT_COUNT=`curl -f -I "https://api.github.com/repos/cryptomator/cryptomator/commits?per_page=1&sha=${GIT_BRANCH}" | sed -rn '/^[Ll]ink:/s/.*page=([0-9]{4,}).*/\1/p'`
 INSTALLER_COMMIT_COUNT=`git rev-list --count HEAD`
 BUILD_VERSION=`cat buildkit/libs/version.txt`
 
