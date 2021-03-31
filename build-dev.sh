@@ -1,6 +1,6 @@
 #!/bin/bash
 GIT_BRANCH=${1:-develop}
-CODESIGN_IDENTITY=${2:-307EF36B2A2EF98EB0AC0D24603A201BBDD4798B}
+CODESIGN_IDENTITY=${2:-799C678CABFF99CD93DB2412E7C688CFB883A594}
 
 # check preconditions
 if [ ! -x ./01-create-app.sh ]; then echo "./01-create-app.sh not executable."; exit 1; fi

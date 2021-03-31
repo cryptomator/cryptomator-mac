@@ -2,7 +2,7 @@
 TAG_VERSION=${1:-snapshot}
 GIT_BRANCH=${1:-develop}
 APP_VERSION=`echo "${1:-0.0.1}" | sed -rn 's/.*([0-9]+\.[0-9]+\.[0-9]+).*/\1/p'`
-CODESIGN_IDENTITY=${2:-307EF36B2A2EF98EB0AC0D24603A201BBDD4798B}
+CODESIGN_IDENTITY=${2:-799C678CABFF99CD93DB2412E7C688CFB883A594}
 
 # check preconditions
 command -v curl >/dev/null 2>&1 || { echo >&2 "curl not found."; exit 1; }
