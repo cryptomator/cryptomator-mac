@@ -4,3 +4,4 @@ buildkit/
 runtimeImage/
 Cryptomator.zip
 *.dmg
+*.dmg.asc
