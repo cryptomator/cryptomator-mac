@@ -1,0 +1,2 @@
+### :warning: This repo is no longer maintained
+Beginning with [Cryptomator 1.6.0 Beta 1](https://github.com/cryptomator/cryptomator/releases/tag/1.6.0-beta1) we moved our installers to the [main repo](https://github.com/cryptomator/cryptomator/tree/develop/dist).
